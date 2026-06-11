@@ -1,0 +1,118 @@
+`timescale 1ns/1ps
+
+module apb_master_tb;
+
+    // Inputs
+    reg clk;
+    reg reset_n;
+    reg transfer;
+    reg [31:0] addr;
+    reg [31:0] wdata;
+    reg write;
+    reg pready;
+
+    // Outputs
+    wire pselx;
+    wire penable;
+    wire [31:0] paddr;
+    wire [31:0] pwdata;
+    wire pwrite;
+
+    // DUT Instantiation
+    apb_master dut (
+        .clk(clk),
+        .reset_n(reset_n),
+        .transfer(transfer),
+        .addr(addr),
+        .wdata(wdata),
+        .write(write),
+        .pselx(pselx),
+        .penable(penable),
+        .paddr(paddr),
+        .pwdata(pwdata),
+        .pwrite(pwrite),
+        .pready(pready)
+    );
+
+    // Clock Generation (10 ns period)
+    initial begin
+        clk = 0;
+        forever #5 clk = ~clk;
+    end
+
+    // Dump file for GTKWave
+    initial begin
+        $dumpfile("apb_master.vcd");
+        $dumpvars(0, apb_master_tb);
+    end
+
+    // Stimulus
+    initial begin
+
+        // Initialize
+        reset_n  = 0;
+        transfer = 0;
+        addr     = 32'h00000000;
+        wdata    = 32'h00000000;
+        write    = 0;
+        pready   = 0;
+
+        // Apply Reset
+        #20;
+        reset_n = 1;
+
+        //--------------------------------------------------
+        // First Write Transfer
+        //--------------------------------------------------
+        @(posedge clk);
+        transfer = 1;
+        write    = 1;
+        addr     = 32'h00000010;
+        wdata    = 32'hA5A5A5A5;
+
+        // Setup -> Access
+        @(posedge clk);
+
+        // Insert Wait State
+        pready = 0;
+        repeat(2) @(posedge clk);
+
+        // Slave Ready
+        pready = 1;
+        @(posedge clk);
+
+        transfer = 0;
+        pready   = 0;
+
+        //--------------------------------------------------
+        // Second Write Transfer
+        //--------------------------------------------------
+        @(posedge clk);
+        transfer = 1;
+        write    = 1;
+        addr     = 32'h00000020;
+        wdata    = 32'h12345678;
+
+        @(posedge clk);
+
+        pready = 1;
+        @(posedge clk);
+
+        transfer = 0;
+        pready   = 0;
+
+        //--------------------------------------------------
+        // End Simulation
+        //--------------------------------------------------
+        #50;
+        $finish;
+
+    end
+
+    // Monitor Signals
+    initial begin
+        $monitor("T=%0t | STATE Signals: PSEL=%b PENABLE=%b PREADY=%b ADDR=%h WDATA=%h",
+                  $time, pselx, penable, pready, paddr, pwdata);
+    end
+
+endmodule
