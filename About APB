@@ -1,0 +1,69 @@
+----->>>>>  APB Protocol RTL Design
+
+## Overview
+
+This project implements the AMBA APB (Advanced Peripheral Bus) Protocol** using Verilog/SystemVerilog RTL design. APB is a simple, low-power, and low-complexity bus protocol widely used in System-on-Chip (SoC) designs for communication between processors and low-speed peripherals such as GPIO, UART, Timers, and SPI controllers. APB is designed for register access and control operations where high bandwidth is not required. ([VLSI Verify][1])
+
+The project demonstrates APB transaction handling, including address transfer, data transfer, peripheral selection, and handshake mechanisms through simulation and waveform verification.
+
+## Features
+
+* APB Master and Slave communication
+* Read and Write transaction support
+* APB Setup and Access phases
+* Handshake using `PREADY`
+* Address decoding and peripheral selection (`PSEL`)
+* RTL implementation in Verilog/SystemVerilog
+* Functional verification using testbench
+* Waveform analysis in EDA Playground/GTKWave
+
+## APB Signals Used
+
+| Signal  | Description                |
+| ------- | -------------------------- |
+| PCLK    | APB Clock                  |
+| PRESETn | Active-low Reset           |
+| PADDR   | Address Bus                |
+| PWDATA  | Write Data Bus             |
+| PRDATA  | Read Data Bus              |
+| PWRITE  | Read/Write Control         |
+| PSEL    | Peripheral Select          |
+| PENABLE | Transfer Enable            |
+| PREADY  | Transfer Completion Signal |
+
+## APB Transfer Flow
+
+1. Idle State – Bus waits for a transfer request.
+2. Setup Phase – Master asserts `PSEL` and places address/control signals.
+3. Access Phase – Master asserts `PENABLE` and completes data transfer.
+4. Completion – Slave asserts `PREADY`, ending the transaction. APB transfers are simple synchronous transactions and typically require at least a setup phase and an access phase. ([ecrionix.org][2])
+
+## Project Structure
+
+├── design.sv          # APB RTL Design
+├── testbench.sv       # Verification Testbench
+├── waveform.png       # Simulation Waveform
+├── README.md          # Project Documentation
+
+
+## Simulation Results
+
+The design was simulated using EDA Playground/Xcelium. Waveforms verify successful APB read and write transactions, correct assertion of `PSEL`, `PENABLE`, and `PREADY`, and proper address/data transfer between master and slave.
+
+## Applications
+
+* SoC Peripheral Communication
+* Register Access Interfaces
+* UART Controllers
+* SPI Controllers
+* GPIO Modules
+* Timer and Interrupt Controllers
+
+## Tools Used
+
+* Verilog/SystemVerilog
+* EDA Playground
+* Cadence Xcelium
+* GTKWave
+
+
