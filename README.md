@@ -12,7 +12,7 @@ Contains the Verilog RTL implementation of the APB-based SPI interface. The desi
 
 Contains the verification environment used to simulate and validate the design. The testbench generates clock and reset signals, applies APB read/write transactions, monitors SPI communication, and verifies correct functionality through simulation waveforms.
 
-### 📊 Simulation Results (`waveform.png` or `simulation_results`)
+### 📊 Simulation Results (`__output__.pdf`)
 
 Includes waveform outputs and simulation screenshots demonstrating successful APB transactions and SPI data transfers, verifying the correctness of the RTL design.
 
