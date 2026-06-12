@@ -2,7 +2,9 @@
 
 ## Overview
 
-This project implements the AMBA APB (Advanced Peripheral Bus) Protocol** using Verilog/SystemVerilog RTL design. APB is a simple, low-power, and low-complexity bus protocol widely used in System-on-Chip (SoC) designs for communication between processors and low-speed peripherals such as GPIO, UART, Timers, and SPI controllers. APB is designed for register access and control operations where high bandwidth is not required. ([VLSI Verify][1])
+This project implements the AMBA APB (Advanced Peripheral Bus) Protocol** using Verilog RTL design. 
+APB is a simple, low-power, and low-complexity bus protocol widely used in System-on-Chip (SoC) designs for communication between processors and low-speed peripherals such as GPIO, UART, Timers, and SPI controllers.
+APB is designed for register access and control operations where high bandwidth is not required.
 
 The project demonstrates APB transaction handling, including address transfer, data transfer, peripheral selection, and handshake mechanisms through simulation and waveform verification.
 
@@ -61,7 +63,7 @@ The design was simulated using EDA Playground/Xcelium. Waveforms verify successf
 
 ## Tools Used
 
-* Verilog/SystemVerilog
+* Verilog
 * EDA Playground
 * Cadence Xcelium
 * GTKWave
